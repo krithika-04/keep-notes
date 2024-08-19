@@ -25,7 +25,7 @@ function Note({
   const ref = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const paintRef = useRef<HTMLDivElement>(null);
-  const [pinned, setpinned] = useState(false);
+  const [pinned, setpinned] = useState(note?.isPinned || false);
   const [isOptionModelOpen, setisOptionModelOpen] = useState(false);
   const [color, setColor] = useState("");
   const [text, setText] = useState("");
@@ -34,6 +34,10 @@ function Note({
   const handlePin = () => {
     setpinned(!pinned);
   };
+  useEffect(() => {
+    setpinned(note?.isPinned || false);
+  }, [note]);
+
   const handleDelete = (noteId: string) => {
     console.log(noteId);
     dispatch(deleteNote(noteId));
@@ -50,7 +54,7 @@ function Note({
     console.log({
       id: note?.id,
       title: titleText,
-      content: text.endsWith('\n') ? text.slice(0, -1) : text,
+      content: text.endsWith("\n") ? text.slice(0, -1) : text,
       isPinned: pinned,
       background: color,
     });
@@ -59,7 +63,7 @@ function Note({
         updateNote({
           id: note.id,
           title: titleText,
-          content: text.endsWith('\n') ? text.slice(0, -1) : text,
+          content: text.endsWith("\n") ? text.slice(0, -1) : text,
           isPinned: pinned,
           background: color,
         })
@@ -70,7 +74,7 @@ function Note({
     onClose();
   };
   const handleTitleChange = (event: React.FormEvent<HTMLDivElement>) => {
-    setTitleText(event.currentTarget.innerText.replace(/<[^>]+>/g, ''));
+    setTitleText(event.currentTarget.innerText.replace(/<[^>]+>/g, ""));
   };
   const handleDescChange = (event: React.FormEvent<HTMLDivElement>) => {
     setText(event.currentTarget.innerText.replace(/<[^>]+>/g, ""));
@@ -78,13 +82,16 @@ function Note({
   useEffect(() => {
     // Event listener logic
     const handleClickOutside = (event: { target: any }) => {
-      const title = titleRef.current?.innerText.replace(/<[^>]+>/g, '') || "";
-      const originalContent = ref.current?.innerText.replace(/<[^>]+>/g, '') || "";
-      const content = originalContent.endsWith('\n') ? originalContent.slice(0, -1) : originalContent;
+      const title = titleRef.current?.innerText.replace(/<[^>]+>/g, "") || "";
+      const originalContent =
+        ref.current?.innerText.replace(/<[^>]+>/g, "") || "";
+      const content = originalContent.endsWith("\n")
+        ? originalContent.slice(0, -1)
+        : originalContent;
       const colorVal = paintRef.current?.getAttribute("data-value") || "";
       const pinVal =
         pinRef.current?.getAttribute("data-value") === "true" || false;
-
+     
       if (event.target.innerText === "Close") {
         console.log({
           id: note?.id,
@@ -222,7 +229,7 @@ function Note({
                 {note?.content.split("\n").map((line, index) => (
                   <React.Fragment key={index}>
                     {line}
-                    <br/>
+                    <br />
                   </React.Fragment>
                 ))}
               </div>
