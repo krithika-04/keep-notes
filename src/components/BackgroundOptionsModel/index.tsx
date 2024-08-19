@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import styles from "./BackgroundOptions.module.css";
 import { updateBackground } from "../../store/notesSlice";
 import { useDispatch } from "react-redux";
@@ -10,7 +9,9 @@ function BackgroundOptionsModel({
   getColor?: (color: string) => void;
 }) {
   const dispatch = useDispatch();
-  const [color, setcolor] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // const [color, setcolor] = useState("");
+
   const colorsSet1 = [
     { color: "#FF0000", id: "1" }, // Red
     { color: "#008000", id: "2" }, // Green
@@ -42,7 +43,7 @@ function BackgroundOptionsModel({
 
   const updateBackgroundColor = (color: string) => {
     console.log(color);
-    setcolor(color);
+    // setcolor(color);
     if (getColor) getColor(color);
     if (noteId) dispatch(updateBackground({ id: noteId, color: color }));
   };

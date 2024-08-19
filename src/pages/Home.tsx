@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {  useRef, useState } from "react";
 import SideBar from "../components/SideBar";
 import styles from "./Home.module.css";
 import NotesList from "../components/NoteList";
 import { useOutsideClick } from "../hooks/outsideClickHook";
 import { useDispatch } from "react-redux";
-import { addNote, pinNote } from "../store/notesSlice";
+import { addNote } from "../store/notesSlice";
 import { v4 as uuidv4 } from "uuid";
 import BackgroundOptionsModel from "../components/BackgroundOptionsModel";
 function Home() {
