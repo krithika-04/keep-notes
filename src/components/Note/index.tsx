@@ -50,7 +50,7 @@ function Note({
     console.log({
       id: note?.id,
       title: titleText,
-      content: text,
+      content: text.endsWith('\n') ? text.slice(0, -1) : text,
       isPinned: pinned,
       background: color,
     });
@@ -59,24 +59,28 @@ function Note({
         updateNote({
           id: note.id,
           title: titleText,
-          content: text,
+          content: text.endsWith('\n') ? text.slice(0, -1) : text,
           isPinned: pinned,
           background: color,
         })
       );
+    setColor("");
+    setpinned(false);
+    setisOptionModelOpen(false);
     onClose();
   };
   const handleTitleChange = (event: React.FormEvent<HTMLDivElement>) => {
-    setTitleText(event.currentTarget.innerText);
+    setTitleText(event.currentTarget.innerText.replace(/<[^>]+>/g, ''));
   };
   const handleDescChange = (event: React.FormEvent<HTMLDivElement>) => {
-    setText(event.currentTarget.innerText.replace(/<[^>]+>/g, ''));
+    setText(event.currentTarget.innerText.replace(/<[^>]+>/g, ""));
   };
   useEffect(() => {
     // Event listener logic
     const handleClickOutside = (event: { target: any }) => {
-      const title = titleRef.current?.innerText || "";
-      const content = ref.current?.innerText || "";
+      const title = titleRef.current?.innerText.replace(/<[^>]+>/g, '') || "";
+      const originalContent = ref.current?.innerText.replace(/<[^>]+>/g, '') || "";
+      const content = originalContent.endsWith('\n') ? originalContent.slice(0, -1) : originalContent;
       const colorVal = paintRef.current?.getAttribute("data-value") || "";
       const pinVal =
         pinRef.current?.getAttribute("data-value") === "true" || false;
@@ -101,7 +105,7 @@ function Note({
           );
         setisOptionModelOpen(false);
         setColor("");
-        setpinned(false)
+        setpinned(false);
         onClose();
         return;
       }
@@ -109,7 +113,14 @@ function Note({
       console.log(event.target);
       console.log(modalRef?.current?.contains(event.target));
       if (modalRef.current && !modalRef.current.contains(event.target)) {
-        if (note?.id)
+        console.log({
+          id: note?.id,
+          title,
+          content,
+          isPinned: pinVal,
+          background: colorVal,
+        });
+        if (note?.id && (note.content !== title || note?.title != content)) {
           dispatch(
             updateNote({
               id: note.id,
@@ -119,7 +130,13 @@ function Note({
               background: colorVal,
             })
           );
+          setisOptionModelOpen(false);
+          setColor("");
+          setpinned(false);
+        }
         setisOptionModelOpen(false);
+        setColor("");
+        setpinned(false);
         onClose();
       }
     };
@@ -154,8 +171,14 @@ function Note({
           <div
             className={styles.noteContent}
             ref={paintRef}
-            data-value={color||note?.background||" #202124"}
-            style={color ? { backgroundColor: color } :note?.background?{backgroundColor:note.background}:{}}
+            data-value={color || note?.background || " #202124"}
+            style={
+              color
+                ? { backgroundColor: color }
+                : note?.background
+                ? { backgroundColor: note.background }
+                : {}
+            }
           >
             {isOptionModelOpen && (
               <BackgroundOptionsModel getColor={handleColor} />
@@ -199,7 +222,7 @@ function Note({
                 {note?.content.split("\n").map((line, index) => (
                   <React.Fragment key={index}>
                     {line}
-                    <br />
+                    <br/>
                   </React.Fragment>
                 ))}
               </div>
