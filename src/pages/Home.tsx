@@ -197,7 +197,7 @@ function Home() {
                   >
                     Close
                   </button>
-                  <div className={styles.iconList} data-name="close">
+                  <div className={styles.iconListHome} data-name="close">
                     <div
                       className={styles.notificationIcon}
                       data-name="create-note"

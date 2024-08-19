@@ -93,12 +93,12 @@
 .closeIcon:hover {
   background-color: rgba(154, 160, 166, 0.039);
 }
-.iconList {
+.iconListHome {
   box-sizing: border-box;
   display: flex;
   flex: 1 0 auto;
 }
-.iconList div {
+.iconListHome div {
   display: flex;
   height: 32px;
   margin: 0 8px;
@@ -110,7 +110,7 @@
   border: 1px solid transparent;
   cursor: pointer;
 }
-.iconList div:hover {
+.iconListHome div:hover {
   background-color: rgba(154, 160, 166, 0.157);
 }
 .pinIcon {
@@ -185,7 +185,7 @@
     flex: 1;
     width: 80%;
   }
-  [class*="iconList"] div {
+  .iconListHome div {
     display: flex;
     height: 22px;
     margin: 0 3px;
@@ -198,7 +198,7 @@
     cursor: pointer;
     box-sizing: border-box;
   }
-  [class*="closeIcon"] {
+  .closeIcon {
     padding: 0px;
   }
 }
