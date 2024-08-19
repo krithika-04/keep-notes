@@ -100,6 +100,8 @@ function Note({
             })
           );
         setisOptionModelOpen(false);
+        setColor("");
+        setpinned(false)
         onClose();
         return;
       }
@@ -152,8 +154,8 @@ function Note({
           <div
             className={styles.noteContent}
             ref={paintRef}
-            data-value={color}
-            style={color ? { backgroundColor: color } : {}}
+            data-value={color||note?.background||" #202124"}
+            style={color ? { backgroundColor: color } :note?.background?{backgroundColor:note.background}:{}}
           >
             {isOptionModelOpen && (
               <BackgroundOptionsModel getColor={handleColor} />
