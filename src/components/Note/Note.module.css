@@ -196,6 +196,6 @@ outline: none;
     width: 100%;
   }
   [class*="closeIcon"]{
-    margin-right: 3px;
+    margin-right: 5px;
   }
 }
